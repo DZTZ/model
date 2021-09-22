@@ -91,11 +91,14 @@
             <div class="txt">{{nowInfo.moDescribe}} </div>
           </div>
           <div class="btn-box">
+            <div @click="onClose">关闭</div>
             <div class="tooltip">
               如何获取
-              <span class="tooltiptext">加QQ：1310167434 获取，收取整理费用</span>
+              <span class="tooltiptext">
+                <p>加QQ：1310167434 获取</p>
+                <p>收取整理费用(3～6元)</p>
+              </span>
             </div>
-            <div @click="onClose">关闭</div>
           </div>
         </div>
       </div>
@@ -183,7 +186,7 @@
                   item.imgArr = item.imgArr.split(',')
                 })
                 that.list = res.data.list;
-                
+
                 if (page == 1) {
                   new Pagination({
                     element: '#pages',

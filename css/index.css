@@ -296,6 +296,13 @@ body{
 .dialog-box .content-box .btn-box {
   width: 100%;
   padding: 4px 0;
+  
+  -moz-user-select:none; /* Firefox私有属性 */
+  -webkit-user-select:none; /* WebKit内核私有属性 */
+  -ms-user-select:none; /* IE私有属性(IE10及以后) */
+  -khtml-user-select:none; /* KHTML内核私有属性 */
+  -o-user-select:none; /* Opera私有属性 */
+  user-select:none; /* CSS3属性 */
 }
 .dialog-box .content-box .btn-box div{
   color: #fff;
@@ -412,17 +419,18 @@ body{
 /* Tooltip 文本 */
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 280px;
+  width: 190px;
   background-color: black;
   color: #fff;
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
   padding: 0 5px;
-
+  line-height: 20px;
   bottom: 110%;
   left: 50%; 
-  margin-left: -140px; /* 使用一半宽度 (120/2 = 60) 来居中提示工具 */
+  margin-left: -95px; /* 使用一半宽度 (120/2 = 60) 来居中提示工具 */
+  padding: 4px 0;
   /* 定位 */
   position: absolute;
   z-index: 1;
