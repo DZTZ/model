@@ -107,6 +107,16 @@
         <img :src="bigImg" alt="">
       </div>
 
+      <!-- 全局加载 -->
+      <div class="loading" v-if="loading">
+        <div class="semipolar-spinner">
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+        </div>
+      </div>
       <!-- 页脚 -->
       <div class="footer">
         <p class="pc-txt">收集、整理素材不易，收取一点整理费用，维护网站</p>
@@ -141,7 +151,8 @@
         dialogVisible: false,
         bigVisible: false,
         nowInfo: null,
-        bigImg: ''
+        bigImg: '',
+        loading: false
       },
       created() {
         this.getList(1);
@@ -161,6 +172,7 @@
       },
       methods: {
         getList(pageNo) {
+          this.loading = true
           document.scrollingElement.scrollTop = 0;
           let where = [["id", ">=", "1"], ["modelType", "=", this.selectType]], page = pageNo || this.page, that = this;
           $.ajax({
@@ -175,9 +187,9 @@
                   item.imgArr = item.imgArr.split(',')
                 })
                 that.list = res.data.list;
-
+                that.loading = false
                 $(function () {
-                  $("img.lazy").lazyload({ effect: "slideDown" });
+                  $("img.lazy").lazyload({ effect: "fadeIn" });
                 });
                 if (page == 1) {
                   new Pagination({
