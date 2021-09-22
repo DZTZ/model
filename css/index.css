@@ -1,0 +1,446 @@
+body{
+  background: #f4f4f4;
+}
+.head-box{
+  background-color: #ffe300;
+  font-size: 16px;
+  padding: 15px 20px;
+}
+
+.select-box {
+  text-align: center;
+  padding: 14px;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+}
+.select-box li{
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.activation{
+  background-color: black;
+  color: #ffe300;
+}
+.select-box li:hover{
+  background-color: black;
+  color: #ffe300;
+}
+.select-box li span{
+  cursor: pointer;
+}
+.select-box li span:hover{
+  color: #ffe300;;
+}
+.isTop{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}
+
+
+.content-box{
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  width: 70vw;
+  margin: 20px auto;
+}
+.content-box-top{
+  margin-top: 104px;
+}
+.content-box  .content-item{
+  box-sizing: border-box;
+  background-color: white;
+  flex: 0 0 18%;
+  /* padding: 8px; */
+  border-radius: 6px ;
+  background: #fff;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  cursor: pointer;
+  position: relative;
+}
+.content-box  .content-item .Mask{
+ width: 100%;
+ height: 100%;
+ background: rgba(255, 255, 255, 0.2);
+ position: absolute;
+ top: 0;
+ left: 0;
+ display: none;
+}
+.content-box  .content-item .number{
+ background: rgba(0,0,0,0.4);
+ font-size: 14px;
+ color: #fff;
+ padding: 2px 4px;
+ /* border-radius: 4px; */
+ }
+
+.content-box  .content-item:hover{
+  box-shadow: 0px 5px 8px 0px rgba(0,0,0,0.2);
+}
+.content-box  .content-item:hover .Mask{
+ display: block;
+}
+.content-box  .content-item:nth-child(5n){
+  margin-right: 0px;
+}
+.content-box  .content-item img{
+  width: 100%;
+  border-radius: 6px 6px 0  0;
+}
+.content-box  .content-item p{
+  font-size: 14px;
+  color: #333;
+  padding:3px 8px;
+
+  text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+
+}
+.content-box  .content-item .ms{
+  font-size: 12px;
+  color: #333;
+  padding:0 0 10px 8px;
+
+  background-image: -webkit-linear-gradient(left, #333, #ffe300 25%, #333 50%, #ffe300 75%, #333);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-background-size: 200% 100%;
+  -webkit-animation: masked-animation 2s infinite linear;
+}
+@-webkit-keyframes masked-animation {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: -100% 0;
+    }
+}
+.content-box  .content-item .row2{
+  font-size: 12px;
+  color: #333;
+  height: 33px;
+
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+#pages{
+  margin: 0 auto;
+}
+.pages-box{
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+@media screen and (max-width: 900px) {
+  .content-box{
+    width: 93vw;
+  }
+  .content-box  .content-item{
+    box-sizing: border-box;
+    flex: 0 0 48.5%;
+    margin-bottom: 14px;
+    margin-right: 10px;
+  }
+  .content-box  .content-item:nth-child(2n){
+    margin-right: 0px;
+  }
+  .head-box{
+    font-size: 14px;
+    text-align: center;
+  }
+  .footer{
+    position: inherit !important;
+    font-size: 12px;
+  }
+  .mb-txt{
+    display: block !important;
+  }
+  .pc-txt{
+    display: none;
+  }
+  .pc-txt{
+    display: none;
+  }
+  .footer{
+    padding-bottom: 0 !important;
+  }
+  .head-box{
+    padding: 10px !important;
+    font-size: 16px !important;
+  }
+
+  .dialog-box .content-box{
+    width:100% !important;
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-60%);
+  }
+}
+
+
+.dialog-box{
+  background-color: rgba(0,0,0,0.8);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.5s;
+  -webkit-transition: opacity 0.5s; /* Safari */
+
+  z-index: -1;
+}
+.show-dialog-box{
+  opacity: 1;
+  z-index: 999;
+}
+.dialog-box .content-box{
+  width: 500px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 6px;
+}
+.dialog-box .content-box .lunbo{
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.dialog-box .content-box .describe{
+  padding: 0 8px;
+  width: 100%;
+}
+.dialog-box .content-box .describe .number{
+ background: rgba(0,0,0,0.4);
+ font-size: 16px;
+ color: #fff;
+ padding: 2px 4px;
+ margin-top: 5px;
+ /* border-radius: 4px; */
+ }
+.dialog-box .content-box .describe h1{
+  font-size: 18px;
+  padding: 6px 0 0 0;
+}
+.dialog-box .content-box .describe h3{
+  font-size: 16px;
+  padding: 3px 0;
+}
+.dialog-box .content-box .describe .v{
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+
+  background-image: -webkit-linear-gradient(left, #333, #ffe300 25%, #333 50%, #ffe300 75%, #333);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-background-size: 200% 100%;
+  -webkit-animation: masked-animation 2s infinite linear;
+}
+.dialog-box .content-box .describe a{
+  color: #333;
+  font-size: 14px;
+
+  background-image: -webkit-linear-gradient(left, #333, #ffe300 25%, #333 50%, #ffe300 75%, #333);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-background-size: 200% 100%;
+  -webkit-animation: masked-animation 2s infinite linear;
+
+  margin: 10px 0;
+  display: inline-block;
+  border: 1px solid #000;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+.dialog-box .content-box .describe .txt{
+  margin: 4px 0 20px 0;
+  color: #151517;
+  font-size: 16px;
+}
+.dialog-box .content-box .btn-box {
+  width: 100%;
+  padding: 4px 0;
+}
+.dialog-box .content-box .btn-box div{
+  color: #fff;
+  background: #000;
+  margin-right: 8px;
+  display: inline-block;
+  width: 80px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+.dialog-box .content-box .btn-box div:hover{
+  background-color: #ffe300;
+  color: #000;
+  font-weight: 500;
+}
+
+.swiper-wrapper {
+  width: 100%;
+}
+.swiper-container {
+  width: 100%;
+  height: 100%;
+
+  -moz-user-select:none; /* Firefox私有属性 */
+  -webkit-user-select:none; /* WebKit内核私有属性 */
+  -ms-user-select:none; /* IE私有属性(IE10及以后) */
+  -khtml-user-select:none; /* KHTML内核私有属性 */
+  -o-user-select:none; /* Opera私有属性 */
+  user-select:none; /* CSS3属性 */
+}
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.swiper-slide img{
+  width: 100%;
+}
+
+.swiper-pagination-bullet-active{
+  background-color: #ffe300 !important;
+}
+:root{
+  --swiper-theme-color: #ffe300 !important;
+}
+
+
+.list-btn{
+  width: 35px;
+  position: fixed;
+  right: 10px;
+  top: 60%;
+}
+.list-btn img{
+  width: 100%;
+}
+
+
+.big-img{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: rgba(0,0,0,0.4);
+}
+.big-img img{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+.empty{
+  text-align: center;
+  margin: 40px auto;
+}
+.empty img{
+  width: 60px;
+}
+.empty p{
+ font-size: 14px;
+ text-align: center;
+}
+
+
+/* Tooltip 容器 */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* 悬停元素上显示点线 */
+}
+
+/* Tooltip 文本 */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 280px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  padding: 0 5px;
+
+  bottom: 110%;
+  left: 50%; 
+  margin-left: -140px; /* 使用一半宽度 (120/2 = 60) 来居中提示工具 */
+  /* 定位 */
+  position: absolute;
+  z-index: 1;
+}
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 100%; /* 提示工具底部 */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+
+/* 鼠标移动上去后显示提示框 */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.footer{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #000;
+  padding: 12px;
+  box-sizing: border-box;
+}
+.footer p{
+  color: #000;
+  font-size: 16px;
+  text-align: center;
+}
+.mb-txt{
+  display: none;
+}

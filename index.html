@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="ue4动画,ue4模型">
+  <meta name="keywords" content="ue4模型" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./css/Basics.css" rel="stylesheet" type="text/css" />
+  <link href="./css/index.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="./css/pagination.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+  <script src="./js/global.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src="./js/pagination.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"> </script>
+
+  <title>UE4、虚幻4，资产</title>
+</head>
+
+<body>
+  <div id="app">
+    <div class="head-box">
+      <p class="pc-txt">专为UE4新手准备的实用资产（模型，动画，特效，材质...）</p>
+      <p class="mb-txt">专为UE4新手准备的实用资产</p>
+      <p class="mb-txt">模型，动画，特效，材质...</p>
+    </div>
+
+    <div :class="`select-box ${isTop?'isTop':''}`">
+      <ul>
+        <li v-for="(item,index) in typeArr" :key="item.type" @click="onSelectType(index,item.type)"
+          :class="`${item.isSelect?'activation':''}`">
+          <span>{{item.name}}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div :class="`content-box ${isTop?'content-box-top':''}`">
+      <div v-for="(item,index) in list" :key="index" class="content-item" @click="onSelect(item)">
+        <img :src="item.imgArr[0]" alt="">
+        <!-- <p>{{item.e_title}}</p> -->
+        <p class="number">资产编号：{{item.modNumber}}</p>
+        <p>{{item.title}}</p>
+        <p class="row2">{{item.moDescribe}}</p>
+        <p class="ms">兼容版本：{{item.v}}</p>
+        <div class="Mask"></div>
+      </div>
+
+      <div class="empty" v-if="!list.length">
+        <img src="./img/empty.png" alt="">
+        <p>这里什么也没有！</p>
+      </div>
+
+      <div class="pages-box">
+        <div id="pages"></div>
+      </div>
+
+      <!-- 清单列表 -->
+      <div class="list-btn">
+        <img src="./img/list.png" alt="">
+      </div>
+
+
+      <!-- 对话框 -->
+      <div :class="`dialog-box ${dialogVisible?'show-dialog-box':''}`" @click="onClose">
+        <div class="content-box" v-if="nowInfo" @click.stop="onStop">
+          <!-- 轮播图 -->
+          <div class="lunbo">
+            <div class="swiper-container">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide" v-for="(item,index) in nowInfo.imgArr" :key="index">
+                  <img :src="item" alt="" @click="onCheckImg(item)">
+                </div>
+              </div>
+              <!-- Add Arrows -->
+              <div class="swiper-button-next"></div>
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+          <!-- 详情 -->
+          <div class="describe">
+            <p class="number">资产编号：{{nowInfo.modNumber}}</p>
+            <h1>{{nowInfo.e_title}}</h1>
+            <h3>{{nowInfo.title}}</h3>
+            <p class="v">兼容版本：{{nowInfo.v}}</p>
+            <a :href="nowInfo.modSource" target="_blank">更多详情信息“请点击查看出处”</a>
+            <div class="txt">{{nowInfo.moDescribe}} </div>
+          </div>
+          <div class="btn-box">
+            <div class="tooltip">
+              如何获取
+              <span class="tooltiptext">加QQ：1310167434 获取，收取整理费用</span>
+            </div>
+            <div @click="onClose">关闭</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 查看大图 -->
+      <div class="big-img" v-if="nowInfo&&bigVisible" @click.stop="onCloseBig">
+        <img :src="bigImg" alt="">
+      </div>
+
+      <!-- 页脚 -->
+      <div class="footer">
+        <p class="pc-txt">收集、整理素材不易，收取一点整理费用，维护网站</p>
+        <p class="mb-txt">收集、整理素材不易</p>
+        <p class="mb-txt">收取一点整理费用，维护网站</p>
+        <p>素材不可商用，想商用请去出处购买正版。</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let apiData = window.apiData;
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        typeArr: [
+          { name: '材质', type: 0, isSelect: true },
+          { name: '动画', type: 1, isSelect: false },
+          { name: '特效', type: 2, isSelect: false },
+          { name: '插件', type: 3, isSelect: false },
+          { name: '2D资源', type: 4, isSelect: false },
+          { name: '人物', type: 5, isSelect: false },
+          { name: '怪物', type: 6, isSelect: false },
+          { name: '场景道具', type: 7, isSelect: false },
+          { name: '武器', type: 8, isSelect: false },
+        ],
+        selectType: 0,
+        isTop: false,
+        page: 1,
+        list: [],
+        dialogVisible: false,
+        bigVisible: false,
+        nowInfo: null,
+        bigImg: ''
+      },
+      created() {
+        this.getList(1);
+      },
+      mounted() {
+        let that = this
+        window.onscroll = function () {
+          let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+          if (scrollTop > 50 && that.isTop === false) {
+            that.isTop = true
+          } else if (scrollTop < 50 && that.isTop === true) {
+            that.isTop = false
+          }
+        }
+
+
+      },
+      methods: {
+        getList(pageNo) {
+          document.scrollingElement.scrollTop = 0;
+          let where = [["id", ">=", "1"], ["modelType", "=", this.selectType]], page = pageNo || this.page, that = this;
+          $.ajax({
+            type: "POST",
+            url: apiData.url + "?&s=App.Table.FreeQuery&return_data=0&model_name=ModelList&logic=and&is_real_total=1" + apiData.key,
+            data: { where: JSON.stringify(where), page, perpage: 10 },
+            dataType: "json",
+            success: function (res) {
+              if (res.ret == 200) {
+                let list = res.data.list;
+                list.map(item => {
+                  item.imgArr = item.imgArr.split(',')
+                })
+                that.list = res.data.list;
+
+                if (page == 1) {
+                  new Pagination({
+                    element: '#pages',
+                    type: 1,
+                    pageIndex: 1,
+                    pageSize: 10,
+                    pageCount: 5,
+                    total: res.data.total,
+                    jumper: true,
+                    singlePageHide: false,
+                    prevText: '上一页',
+                    nextText: '下一页',
+                    disabled: true,
+                    currentChange: function (index) {
+                      console.log(index);
+                    }
+                  });
+                }
+              } else {
+
+              }
+            }
+          });
+        },
+        onSelectType(index, type) {
+          this.typeArr.map(item => {
+            item.isSelect = false
+          })
+          let item = this.typeArr[index]
+          item.isSelect = true
+          this.selectType = type
+          this.$set(this.typeArr, index, item)
+          this.getList(1);
+        },
+        onSelect(item) {
+          this.nowInfo = item
+          this.dialogVisible = true
+
+          this.$nextTick(function () {
+            var swiper = new Swiper('.swiper-container', {
+              loop: true,
+              autoplay: true,
+              lazy: {
+                loadPrevNext: true,
+              },
+              navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+              },
+              pagination: {
+                el: '.swiper-pagination',
+              },
+            });
+          });
+        },
+        onClose() {
+          this.nowInfo = null
+          this.dialogVisible = false
+        },
+        onStop() {
+          //阻止冒泡
+        },
+        onCheckImg(img) {
+          this.bigVisible = true;
+          this.bigImg = img;
+        },
+        onCloseBig() {
+          this.bigVisible = false;
+          this.bigImg = '';
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
