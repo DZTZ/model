@@ -14,7 +14,6 @@
 
   <script src="./js/global.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="./js/jquery.lazyload.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="./js/pagination.js"></script>
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"> </script>
@@ -41,8 +40,7 @@
 
     <div :class="`content-box ${isTop?'content-box-top':''}`">
       <div v-for="(item,index) in list" :key="index" class="content-item" @click="onSelect(item)">
-        <!-- <img :src="item.imgArr[0]" alt=""> -->
-        <img class="lazy" :data-original="item.imgArr[0]">
+        <img :src="item.imgArr[0]" alt="">
         <!-- <p>{{item.e_title}}</p> -->
         <p class="number">资产编号：{{item.modNumber}}</p>
         <p>{{item.title}}</p>
@@ -176,7 +174,7 @@
           $.ajax({
             type: "POST",
             url: apiData.url + "?&s=App.Table.FreeQuery&return_data=0&model_name=ModelList&logic=and&is_real_total=1" + apiData.key,
-            data: { where: JSON.stringify(where), page, perpage: 10 },
+            data: { where: JSON.stringify(where), page, perpage: 15 },
             dataType: "json",
             success: function (res) {
               if (res.ret == 200) {
@@ -185,15 +183,13 @@
                   item.imgArr = item.imgArr.split(',')
                 })
                 that.list = res.data.list;
-                $(function () {
-                  $("img.lazy").lazyload({ effect: "fadeIn" });
-                });
+                
                 if (page == 1) {
                   new Pagination({
                     element: '#pages',
                     type: 1,
                     pageIndex: 1,
-                    pageSize: 10,
+                    pageSize: 15,
                     pageCount: 5,
                     total: res.data.total,
                     jumper: true,
@@ -202,7 +198,7 @@
                     nextText: '下一页',
                     disabled: true,
                     currentChange: function (index) {
-                      console.log(index);
+                      that.getList(index);
                     }
                   });
                 }
