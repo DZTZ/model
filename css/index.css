@@ -162,6 +162,9 @@ body{
   .content-box  .content-item:nth-child(2n){
     margin-right: 0px;
   }
+  .content-box  .content-item:nth-child(5n){
+    margin-right: 10px;
+  }
   .head-box{
     font-size: 14px;
     text-align: center;
@@ -193,6 +196,9 @@ body{
     position: absolute;
     top: 50%;
     transform: translateY(-60%);
+  }
+  .content-box  .content-item .row2{
+    width: 40vw;
   }
 }
 
