@@ -109,7 +109,7 @@
       </div>
 
       <!-- 全局加载 -->
-      <!-- <div class="loading" v-if="loading">
+      <div class="loading" v-if="loading">
         <div class="semipolar-spinner">
           <div class="ring"></div>
           <div class="ring"></div>
@@ -117,7 +117,7 @@
           <div class="ring"></div>
           <div class="ring"></div>
         </div>
-      </div> -->
+      </div>
       <!-- 页脚 -->
       <div class="footer">
         <p class="pc-txt">收集、整理素材不易，收取一点整理费用，维护网站</p>
@@ -153,6 +153,7 @@
         bigVisible: false,
         nowInfo: null,
         bigImg: '',
+        loading:false
       },
       created() {
         this.getList(1);
@@ -173,6 +174,7 @@
       methods: {
         getList(pageNo) {
           document.scrollingElement.scrollTop = 0;
+          this.loading = true
           let where = [["id", ">=", "1"], ["modelType", "=", this.selectType]], page = pageNo || this.page, that = this;
           $.ajax({
             type: "POST",
@@ -186,7 +188,9 @@
                   item.imgArr = item.imgArr.split(',')
                 })
                 that.list = res.data.list;
-
+                setTimeout(()=>{
+                  that.loading = false
+                },1000)
                 if (page == 1) {
                   new Pagination({
                     element: '#pages',
