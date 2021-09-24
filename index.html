@@ -14,6 +14,7 @@
 
   <script src="./js/global.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./js/jquery.lazyload.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="./js/pagination.js"></script>
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"> </script>
@@ -40,7 +41,8 @@
 
     <div :class="`content-box ${isTop?'content-box-top':''}`">
       <div v-for="(item,index) in list" :key="index" class="content-item" @click="onSelect(item)">
-        <img :src="item.imgArr[0]" alt="">
+        <!-- <img :src="item.imgArr[0]" alt=""> -->
+        <img class="lazy" :data-original="item.imgArr[0]">
         <!-- <p>{{item.e_title}}</p> -->
         <p class="number">资产编号：{{item.modNumber}}</p>
         <p>{{item.title}}</p>
@@ -73,6 +75,7 @@
               <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item,index) in nowInfo.imgArr" :key="index">
                   <img :src="item" alt="" @click="onCheckImg(item)">
+                  <!-- <img class="lazy" :data-original="item"> -->
                 </div>
               </div>
               <!-- Add Arrows -->
@@ -91,7 +94,6 @@
             <div class="txt">{{nowInfo.moDescribe}} </div>
           </div>
           <div class="btn-box">
-            <div @click="onClose">关闭</div>
             <div class="tooltip">
               如何获取
               <span class="tooltiptext">
@@ -99,6 +101,7 @@
                 <p>收取整理费用(3～6元)</p>
               </span>
             </div>
+            <div @click="onClose">关闭</div>
           </div>
         </div>
       </div>
@@ -153,7 +156,7 @@
         bigVisible: false,
         nowInfo: null,
         bigImg: '',
-        loading:false
+        loading: false
       },
       created() {
         this.getList(1);
@@ -188,9 +191,18 @@
                   item.imgArr = item.imgArr.split(',')
                 })
                 that.list = res.data.list;
-                setTimeout(()=>{
+
+                setTimeout(() => {
                   that.loading = false
-                },1000)
+                }, 1000)
+
+                $(function () {
+                  $("img.lazy").lazyload({
+                    effect: "fadeIn",
+                    placeholder: "./img/loding.gif",
+                  });
+                });
+
                 if (page == 1) {
                   new Pagination({
                     element: '#pages',
@@ -244,6 +256,13 @@
                 el: '.swiper-pagination',
               },
             });
+            // $("img.lazy").lazyload({
+            //   effect: "fadeIn",
+            //   placeholder: "./img/loding.gif",
+            // });
+            // $(function () {
+
+            // });
           });
         },
         onClose() {

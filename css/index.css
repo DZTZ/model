@@ -96,6 +96,7 @@ body{
   border-radius: 6px 6px 0  0;
   min-height: 95px;
   max-height: 107px;
+  object-fit: cover;
 }
 .content-box  .content-item p{
   font-size: 14px;
@@ -232,7 +233,7 @@ body{
   z-index: 999;
 }
 .dialog-box .content-box{
-  width: 500px;
+  width: 660px;
   background-color: #fff;
   padding: 10px;
   border-radius: 6px;
@@ -295,6 +296,7 @@ body{
   font-size: 16px;
 }
 .dialog-box .content-box .btn-box {
+  text-align: center;
   width: 100%;
   padding: 4px 0;
 
@@ -360,6 +362,7 @@ body{
 .swiper-slide img{
   width: 100%;
   min-height: 199px;
+  object-fit: cover;
 }
 
 .swiper-pagination-bullet-active{
@@ -394,7 +397,9 @@ body{
   width: 100%;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%,-50%);
+  max-width: 1200px;
 }
 
 
