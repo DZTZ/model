@@ -39,8 +39,12 @@
       </ul>
     </div>
 
+    <div :class="`hint ${isHint?'opacity1':''}`">图片长时间不显示，请刷新页面，或换个时间再来</div>
+
     <div :class="`content-box ${isTop?'content-box-top':''}`">
-      <div v-for="(item,index) in list" :key="index" class="content-item" @click="onSelect(item)">
+      <div class="item-box" v-if="list.length == 0 && loading"></div>
+      <div v-for="(item,index) in list" :key="index" class="content-item" @click="onSelect(item)"
+        v-if="list.length != 0">
         <!-- <img :src="item.imgArr[0]" alt=""> -->
         <img class="lazy" :data-original="item.imgArr[0]">
         <!-- <p>{{item.e_title}}</p> -->
@@ -158,10 +162,14 @@
         bigVisible: false,
         nowInfo: null,
         bigImg: '',
-        loading: false
+        loading: false,
+        isHint: false,
       },
       created() {
         this.getList(1);
+        setTimeout(() => {
+          this.isHint = true
+        }, 4000)
       },
       mounted() {
         let that = this
@@ -192,18 +200,20 @@
                 list.map(item => {
                   item.imgArr = item.imgArr.split(',')
                 })
-                that.list = res.data.list;
+                that.list = [];
+                setTimeout(() => {
+                  that.list = res.data.list;
+                  $(function () {
+                    $("img.lazy").lazyload({
+                      effect: "fadeIn",
+                      placeholder: "./img/loding.gif",
+                    });
+                  });
+                }, 500)
 
                 setTimeout(() => {
                   that.loading = false
                 }, 1000)
-
-                $(function () {
-                  $("img.lazy").lazyload({
-                    effect: "fadeIn",
-                    placeholder: "./img/loding.gif",
-                  });
-                });
 
                 if (page == 1) {
                   new Pagination({
